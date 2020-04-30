@@ -4881,7 +4881,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 }
 .navbar {
   font-size: 16px;
-  min-height: 53px;
+  min-height: 50px;
   margin-bottom: 30px;
   border: none;
   border-radius: 0px;
