@@ -1,4 +1,5 @@
 import Node from "./node.js";
+import getDistance from "./getDistance.js";
 
 class Board {
     constructor(height, width) {
@@ -30,6 +31,7 @@ class Board {
     }
     initialise() {
         this.createGrid();
+        this.addEventListeners();
     }
     createGrid() {
         let tableHTML = "";
@@ -60,11 +62,88 @@ class Board {
         let board = document.getElementById("board");
         board.innerHTML = tableHTML;
     }
-    getNode() {
+    addEventListeners(){
+        let board = this;
+        for (let i = 0; i < board.height; i++){
+            for (let j = 0; j < board.width; j++){
+                let currentId = `${i}-${j}`;
+                let currentNode = board.getNode(currentId);
+                let currentElement = $(currentId);
+                currentElement.onmousedown = (e) => {
+                    e.preventDefault();
+                    if (this.buttonsOn) {
+                      board.mouseDown = true;
+                        if (currentNode.status == "start" || currentNode.status == "target" || currentNode.status == "object") {
+                            board.pressedNodeStatus = currentNode.status;
+                        } else {
+                            board.pressedNodeStatus = "normal";
+                            board.changeNormalNode(currentNode);
+                        }
+                    }
+                  }
+                  currentElement.onmouseup = () => {
+                    if (this.buttonsOn) {
+                      board.mouseDown = false;
+                        if (board.pressedNodeStatus == "target") {
+                            board.target = currentId;
+                        } else if (board.pressedNodeStatus == "start") {
+                            board.start = currentId;
+                        } else if (board.pressedNodeStatus == "object") {
+                            board.object = currentId;
+                        }
+                      board.pressedNodeStatus = "normal";
+                    }
+                  }
+                  currentElement.onmouseenter = () => {
+                    if (this.buttonsOn) {
+                        if (board.mouseDown && board.pressedNodeStatus !== "normal") {
+                            board.changeSpecialNode(currentNode);
+                            if (board.pressedNodeStatus == "target") {
+                            board.target = currentId;
+                                if (board.algoDone) {
+                                    board.redoAlgorithm();
+                                }
+                            } else if (board.pressedNodeStatus == "start") {
+                            board.start = currentId;
+                                if (board.algoDone) {
+                                    board.redoAlgorithm();
+                                }
+                            } else if (board.pressedNodeStatus == "object") {
+                            board.object = currentId;
+                                if (board.algoDone) {
+                                    board.redoAlgorithm();
+                                }
+                            }
+                        } else if (board.mouseDown) {
+                            board.changeNormalNode(currentNode);
+                        }
+                    }
+                  }
+                  currentElement.onmouseleave = () => {
+                    if (this.buttonsOn) {
+                        if (board.mouseDown && board.pressedNodeStatus !== "normal") {
+                            board.changeSpecialNode(currentNode);
+                        }
+                    }
+                  }
+            }
+        } 
+    }
+    getNode(id) {
         let coordinates = id.split("-");
         let i = parseInt(coordinates[0]);
         let j = parseInt(coordinates[1]);
         return this.boardArray[i][j]; 
+    }
+    clearPath(){
+
+    }
+    clearWall(){
+
+    }
+    redoAlgorithm(){
+        this.clearPath();
+        /* this.instantAlgorithm(); */
     }
 }
 
