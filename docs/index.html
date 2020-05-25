@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link id="cssTheme" rel="stylesheet" href="Styles/styles.css"/>
+        <link rel="shortcut icon" type="image/png" href="Styles/location-icon.png"/>
+    
+        <title>Pathfinder</title>
+    </head>
+    <body>
+        <div id="navbarDiv">
+            <nav class="navbar navbar-inverse" style="padding:0px;">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a id="refreshButton" class="navbar-brand" href="#">Pathfinder</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li id="startButtonBFS"><a href="#">Breadth-first Search</a></li>
+                            </ul>
+                        </li>
+                        <li id="startButtonStart"><button id="startButton" class="btn btn-default navbar-btn" type="button">Visualize!</button></li>
+                        <li id="startButtonClearBoard"><a href="#">Clear Board</a></li>
+                        <li id="startButtonClearWalls"><a href="#">Clear Walls &amp; Weights</a></li>
+                        <li id="startButtonClearPath"><a href="#">Clear Path</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div id="mainGrid">
+            <div id="mainText">
+                <ul>
+                    <li><div class="start"></div>Start Node</li>
+                    <li><div class="target"></div>Target Node</li>
+                    <li><div class="unvisited"></div>Unvisited Node</li>
+                    <li><div class="visited"></div><div class="visitedobject"></div>Visited Node</li>
+                    <li><div class="shortest-path"></div>Shortest-path Node</li>
+                    <li><div class="wall"></div>Wall Node</li>
+                </ul>
+            </div>
+            <div id="algorithmDescriptor">Pick an algorithm</div>
+            <table id="board"></table>
+        </div>
+
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="main.js" type="module"></script>
+</html>
