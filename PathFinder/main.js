@@ -1,4 +1,3 @@
-// ------------------------------- Grid ------------------------------- //
 // ----------------------------- node.js ----------------------------- //
 class Node {
   constructor(id, status) {
@@ -162,6 +161,56 @@ class Board {
     let i = parseInt(coordinates[0]);
     let j = parseInt(coordinates[1]);
     return this.boardArray[i][j];
+  }
+  changeSpecialNode() {
+    let element = document.getElementById(currentNode.id), previousElement;
+    if (this.previouslySwitchedNode) previousElement = document.getElementById(this.previouslySwitchedNode.id);
+    if (currentNode.status !== "target" && currentNode.status !== "start" && currentNode.status !== "object") {
+      if (this.previouslySwitchedNode) {
+        this.previouslySwitchedNode.status = this.previouslyPressedNodeStatus;
+        previousElement.className = this.previouslySwitchedNodeWeight === 15 ?
+          "unvisited weight" : this.previouslyPressedNodeStatus;
+        this.previouslySwitchedNode.weight = this.previouslySwitchedNodeWeight === 15 ?
+          15 : 0;
+        this.previouslySwitchedNode = null;
+        this.previouslySwitchedNodeWeight = currentNode.weight;
+
+        this.previouslyPressedNodeStatus = currentNode.status;
+        element.className = this.pressedNodeStatus;
+        currentNode.status = this.pressedNodeStatus;
+
+        currentNode.weight = 0;
+      }
+    } else if (currentNode.status !== this.pressedNodeStatus && !this.algoDone) {
+      this.previouslySwitchedNode.status = this.pressedNodeStatus;
+      previousElement.className = this.pressedNodeStatus;
+    } else if (currentNode.status === this.pressedNodeStatus) {
+      this.previouslySwitchedNode = currentNode;
+      element.className = this.previouslyPressedNodeStatus;
+      currentNode.status = this.previouslyPressedNodeStatus;
+    }
+  }
+  changeNormalNode() {
+    let element = document.getElementById(currentNode.id);
+    let relevantStatuses = ["start", "target", "object"];
+    let unweightedAlgorithms = ["dfs", "bfs"]
+    if (!this.keyDown) {
+      if (!relevantStatuses.includes(currentNode.status)) {
+        element.className = currentNode.status !== "wall" ?
+          "wall" : "unvisited";
+        currentNode.status = element.className !== "wall" ?
+          "unvisited" : "wall";
+        currentNode.weight = 0;
+      }
+    } else if (this.keyDown === 87 && !unweightedAlgorithms.includes(this.currentAlgorithm)) {
+      if (!relevantStatuses.includes(currentNode.status)) {
+        element.className = currentNode.weight !== 15 ?
+          "unvisited weight" : "unvisited";
+        currentNode.weight = element.className !== "unvisited weight" ?
+          0 : 15;
+        currentNode.status = "unvisited";
+      }
+    }
   }
   drawShortestPath(targetNodeId, startNodeId, object) {
     let currentNode;
@@ -457,6 +506,33 @@ class Board {
         currentHTMLNode.className = "unvisited";
       }
     });
+  }
+  clearWeights() {
+    this.clearPath("clickedButton");
+    Object.keys(this.nodes).forEach(id => {
+      let currentNode = this.nodes[id];
+      let currentHTMLNode = document.getElementById(id);
+      if (currentNode.status === "wall" || currentNode.weight === 15) {
+        currentNode.status = "unvisited";
+        currentNode.weight = 0;
+        currentHTMLNode.className = "unvisited";
+      }
+    });
+  }
+  clearNodeStatuses() {
+    Object.keys(this.nodes).forEach(id => {
+      let currentNode = this.nodes[id];
+      currentNode.previousNode = null;
+      currentNode.distance = Infinity;
+      currentNode.totalDistance = Infinity;
+      currentNode.heuristicDistance = null;
+      currentNode.storedDirection = currentNode.direction;
+      currentNode.direction = null;
+      let relevantStatuses = ["wall", "start", "target", "object"];
+      if (!relevantStatuses.includes(currentNode.status)) {
+        currentNode.status = "unvisited";
+      }
+    })
   }
   instantAlgorithm() {
     let weightedAlgorithms = ["dijkstra", "CLA", "greedy"];
