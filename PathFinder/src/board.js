@@ -1,4 +1,17 @@
 import Node from "./node.js";
+import launchAnimations from "./animations/launchAnimations";
+import launchInstantAnimations from "./animations/launchInstantAnimations";
+import mazeGenerationAnimations from "./animations/mazeGenerationAnimations";
+import weightedSearchAlgorithm from "./pathfindingAlgorithms/weightedSearchAlgorithm";
+import unweightedSearchAlgorithm from "./pathfindingAlgorithms/unweightedSearchAlgorithm";
+import recursiveDivisionMaze from "./mazeAlgorithms/recursiveDivisionMaze";
+import otherMaze from "./mazeAlgorithms/otherMaze";
+import otherOtherMaze from "./mazeAlgorithms/otherOtherMaze";
+import astar from "./pathfindingAlgorithms/astar";
+import stairDemonstration from "./mazeAlgorithms/stairDemonstration";
+import weightsDemonstration from "./mazeAlgorithms/weightsDemonstration";
+import simpleDemonstration from "./mazeAlgorithms/simpleDemonstration";
+import bidirectional from "./pathfindingAlgorithms/bidirectional";
 import getDistance from "./getDistance.js";
 
 class Board {
